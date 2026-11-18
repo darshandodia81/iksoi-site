@@ -1,0 +1,841 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Iksoi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style id="page-style">
+/*
+  Layout: one left-aligned column. Headings sit in a narrow rail on wide screens and text in a 38rem measure beside them.
+  One moving element, the breathing orb in the hero, carries the page; everything else stays still.
+*/
+:root {
+  --bg: #EDF1EF;
+  --surface: #F7F9F8;
+  --fg: #14292B;
+  --muted: #4A6163;
+  --line: #CAD6D3;
+  --accent: #9A5F0B;
+  --on-accent: #FFFAF0;
+  --ph-bg: rgba(154, 95, 11, 0.13);
+  --orb-a: #F6DC9B;
+  --orb-b: #D9A03E;
+  --on-orb: #1B2B28;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1C1F;
+    --surface: #142A2D;
+    --fg: #E4EDEB;
+    --muted: #9DB3B1;
+    --line: #2A4241;
+    --accent: #E9B85C;
+    --on-accent: #14201F;
+    --ph-bg: rgba(233, 184, 92, 0.16);
+    --orb-a: #F2CE82;
+    --orb-b: #BE8629;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1C1F;
+  --surface: #142A2D;
+  --fg: #E4EDEB;
+  --muted: #9DB3B1;
+  --line: #2A4241;
+  --accent: #E9B85C;
+  --on-accent: #14201F;
+  --ph-bg: rgba(233, 184, 92, 0.16);
+  --orb-a: #F2CE82;
+  --orb-b: #BE8629;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  padding-block: 0.5rem 2rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 68rem; margin-inline: auto; }
+
+a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* Key phrases: a permanent marker highlight, separate from the placeholder highlight above */
+mark.key {
+  background: linear-gradient(transparent 55%, color-mix(in srgb, var(--accent) 30%, transparent) 55%);
+  color: inherit;
+  font-weight: 600;
+  padding: 0 0.1em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+mark.ph {
+  background: var(--ph-bg);
+  color: inherit;
+  padding: 0.05em 0.3em;
+  border-radius: 3px;
+  box-shadow: inset 0 -1.5px 0 var(--accent);
+}
+
+/* Header */
+.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; padding-block: 1.1rem; }
+.brand { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.01em; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; font-size: 0.95rem; }
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 2.5rem 4rem;
+  align-items: center;
+  padding-block: clamp(2rem, 6vw, 4.5rem) clamp(3rem, 8vw, 6rem);
+}
+.eyebrow { margin: 0 0 1rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+h1 {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 1.2rem + 4.2vw, 3.7rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+h1 em { font-style: italic; }
+.lede { max-width: 34rem; margin: 0 0 1.75rem; font-size: 1.15rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.btn:hover { background: color-mix(in srgb, var(--accent) 86%, var(--fg)); }
+
+/* Breathing pacer: in for 4 seconds, out for 6 */
+.pacer { margin: 0; min-width: 0; }
+.pacer-stage { position: relative; display: grid; place-items: center; width: min(100%, 19rem); aspect-ratio: 1; margin-inline: auto; }
+.pacer-ring { position: absolute; inset: 0; border: 1px solid var(--line); border-radius: 50%; }
+.pacer-orb {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, var(--orb-a), var(--orb-b) 72%);
+  transform: scale(0.56);
+  animation: breathe 10s ease-in-out infinite;
+}
+.pacer-cue { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-size: 1.15rem; color: var(--on-orb); }
+.pacer-cue span { grid-area: 1 / 1; opacity: 0; }
+.pacer-cue .in { animation: cue-in 10s linear infinite; }
+.pacer-cue .out { animation: cue-out 10s linear infinite; }
+.pacer figcaption { max-width: 19rem; margin: 1.25rem auto 0; font-size: 0.92rem; color: var(--muted); }
+@keyframes breathe { 0%, 100% { transform: scale(0.56); } 40% { transform: scale(1); } }
+@keyframes cue-in { 0% { opacity: 0; } 5% { opacity: 1; } 35% { opacity: 1; } 40%, 100% { opacity: 0; } }
+@keyframes cue-out { 0%, 40% { opacity: 0; } 45% { opacity: 1; } 95% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Sections */
+.s {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 38rem);
+  gap: 1rem 4rem;
+  padding-block: clamp(2.25rem, 6vw, 4rem);
+  border-top: 1px solid var(--line);
+}
+.s > * { min-width: 0; }
+h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.65rem; line-height: 1.2; text-wrap: balance; }
+.s p { margin: 0 0 1rem; }
+.s p:last-child { margin-bottom: 0; }
+
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.5rem 2.5rem; margin-top: 1.5rem; }
+.cols > * { min-width: 0; }
+.cols h3 { margin: 0 0 0.75rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.cols ul { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+.cols li { position: relative; padding-left: 1.25rem; }
+.cols li::before { content: ""; position: absolute; left: 0; }
+.cols .yes li::before { top: 0.7em; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); }
+.cols .no li::before { top: 0.85em; width: 0.6rem; height: 1px; background: var(--muted); }
+
+.steps { display: grid; gap: 1.5rem; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.steps li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0 1rem; counter-increment: step; }
+.steps li::before { content: counter(step); font-family: var(--font-display); font-size: 2rem; line-height: 1.1; color: var(--accent); }
+.steps strong { display: block; margin-bottom: 0.15rem; font-weight: 600; }
+.steps p { margin: 0; }
+
+/* Help panel */
+.help { display: grid; gap: 1rem; margin: 1.5rem 0 1rem; padding: 1.25rem 1.4rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.help dl { display: grid; gap: 1rem; margin: 0; }
+.help dt { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.help dd { margin: 0.2rem 0 0; }
+.num { font-family: var(--font-display); font-size: 1.4rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Contact */
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; margin: 1.25rem 0; }
+.addr { font-family: var(--font-display); font-size: 1.4rem; overflow-wrap: anywhere; }
+.ghost { font: inherit; font-size: 0.95rem; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1.1rem; cursor: pointer; }
+.ghost:hover { border-color: var(--accent); }
+.status { min-height: 1.5em; margin: 0; font-size: 0.92rem; color: var(--muted); }
+.chan { display: grid; gap: 0.5rem; margin-top: 1.75rem; }
+.chan > * { min-width: 0; }
+.chan h3 { margin: 0; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.chan p { margin: 0; }
+.chan .mail { margin: 0.25rem 0 0; }
+.social { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; margin: 0.25rem 0 0; padding: 0; list-style: none; }
+.social li { display: grid; gap: 0.15rem; min-width: 0; }
+.social .net { font-size: 0.92rem; color: var(--muted); }
+.social mark { justify-self: start; }
+.social .handle { justify-self: start; }
+.chan + p:not(.status) { margin-top: 1.75rem; }
+
+/* Footer */
+footer { padding-block: 1.75rem 1rem; border-top: 1px solid var(--line); font-size: 0.92rem; color: var(--muted); }
+footer > p { margin: 0 0 1rem; }
+.legal { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem 2.5rem; }
+.legal > * { min-width: 0; }
+summary { cursor: pointer; color: var(--fg); font-weight: 600; }
+details p, details li { margin: 0.6rem 0 0; }
+details ul { margin: 0; padding-left: 1.1rem; }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .s { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pacer-orb { animation: none; transform: scale(0.8); }
+  .pacer-cue .in, .pacer-cue .out { display: none; }
+  .pacer-cue .still { opacity: 1; }
+}
+
+/* Edit mode: appears only for people who can save this page */
+.ed-fab {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+}
+.ed-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: grid;
+  gap: 0.6rem;
+  padding-top: 0.8rem;
+  padding-bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.ed-hint, .ed-note { margin: 0; }
+.ed-hint { color: var(--muted); }
+.ed-note { min-height: 1.4em; }
+.ed-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.ed-row > * { min-width: 0; }
+.ed-input {
+  flex: 1 1 16rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+}
+.ed-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ed-btn {
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+}
+.ed-btn:hover { border-color: var(--accent); }
+.ed-btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 600; }
+.ed-btn:disabled { opacity: 0.55; cursor: default; }
+.ed-check { display: inline-flex; align-items: center; gap: 0.45rem; margin-right: auto; }
+
+body.editing { padding-block-end: 11rem; }
+body.editing [contenteditable="true"] {
+  cursor: text;
+  border-radius: 3px;
+  outline: 1px dashed transparent;
+  outline-offset: 3px;
+}
+body.editing [contenteditable="true"]:hover { outline-color: var(--muted); }
+body.editing [contenteditable="true"]:focus { outline: 2px solid var(--accent); }
+body.editing [contenteditable="true"]:empty { min-height: 1.4em; outline-color: var(--accent); }
+</style>
+<div class="wrap" id="app">
+  <header class="top">
+    <a class="brand" href="#" aria-label="Iksoi, back to top">Iksoi</a>
+    <nav aria-label="Main">
+      <a href="#about">Why I offer this</a>
+      <a href="#sessions">Sessions</a>
+      <a href="#care">Support</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="top-title">
+      <div>
+        <p class="eyebrow">Free one-to-one conversations</p>
+        <h1 id="top-title">A calm place to talk about <em>what is weighing on you.</em></h1>
+        <p class="lede">Hard times can crowd out the joy: a personal struggle, worries about money or work, or anything else that keeps you from living a happy and peaceful life. I offer <mark class="key">free, private conversations</mark> to anyone going through them, and <mark class="key">students are especially welcome</mark>.</p>
+        <div class="actions">
+          <a class="btn" href="#contact">Write to me</a>
+          <a href="#sessions">See how a session works</a>
+        </div>
+      </div>
+      <figure class="pacer" aria-labelledby="pacer-cap">
+        <div class="pacer-stage" aria-hidden="true">
+          <div class="pacer-ring"></div>
+          <div class="pacer-orb"></div>
+          <div class="pacer-cue"><span class="in">Breathe in</span><span class="out">Breathe out</span><span class="still">Breathe slowly</span></div>
+        </div>
+        <figcaption id="pacer-cap">One slow breath before you read on. In for four seconds, out for six.</figcaption>
+      </figure>
+    </section>
+
+    <section class="s" id="about" aria-labelledby="about-title">
+      <h2 id="about-title">Why I offer this</h2>
+      <div>
+        <p>Life is a precious gift, and it is <mark class="key">meant to be lived joyfully</mark>. Yet there are times when something stands in the way: a personal struggle, the loss of a job or of a loved one, a restless mind, or a situation you cannot quite name or understand. In those times, enjoying life can feel very far away.</p>
+        <p>Our <mark class="key">mental health is at the heart of our wellbeing</mark>. It shapes how we think, feel, work and love, and it deserves the same care as our physical health. Hard times weigh on the mind and the heart, and no one should have to carry them alone.</p>
+        <p>I started Iksoi to walk with people through those times, so that they can find their way back to a happy and joyful life. There is a better side of life than running from one demand to the next, and I want to make it easier for you to see. I do this because I <mark class="key">genuinely want to help people</mark> and to do the best I can for <mark class="key">a better world</mark>. I cannot change everything, but I can offer my time, my attention and a kind ear, one conversation at a time.</p>
+        <p>I am not a therapist, and when you need more than a conversation, I will gladly point you to the right professional. I am <mark class="key">a real person, not an AI</mark>. For now the conversations are free and there is no obligation.</p>
+        
+      </div>
+    </section>
+
+    <section class="s" id="sessions" aria-labelledby="sessions-title">
+      <h2 id="sessions-title">What a session is</h2>
+      <div>
+        <p>A session is <mark class="key">a private conversation</mark>, one person at a time. It usually lasts <mark class="key">45 minutes</mark> and takes place by video or voice call. You choose what we talk about, whether it is something personal, the pressure of studies and exams, or anything else that stands in the way of a peaceful life.</p>
+        <div class="cols">
+          <div class="yes">
+            <h3>It is</h3>
+            <ul>
+              <li>A place to say what is on your mind without being judged, however heavy it feels.</li>
+              <li>Someone who listens first, then asks questions that help you see things differently.</li>
+              <li>Small, practical ideas you can try the same day, such as a breathing exercise or a question to sit with.</li>
+            </ul>
+          </div>
+          <div class="no">
+            <h3>It is not</h3>
+            <ul>
+              <li>Therapy, counselling or medical treatment.</li>
+              <li>Professional financial or legal advice.</li>
+              <li>A diagnosis, or a cure for any condition.</li>
+              <li>A replacement for a doctor, therapist or other professional.</li>
+              <li><mark class="key">Help in an emergency.</mark></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="s" id="begin" aria-labelledby="begin-title">
+      <h2 id="begin-title">How to begin</h2>
+      <ol class="steps">
+        <li><div><strong>Write to me</strong><p>Send a short email about what is on your mind. A few lines are enough.</p></div></li>
+        <li><div><strong>We find a time</strong><p>I reply myself, usually within <mark class="key">three days</mark>, and we agree a time that suits you.</p></div></li>
+        <li><div><strong>We talk</strong><p>We meet online for one conversation. If it helps, we can meet again.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="s" id="care" aria-labelledby="care-title">
+      <h2 id="care-title">When you need more than a conversation</h2>
+      <div>
+        <p>Some things call for <mark class="key">a trained professional</mark>. If you are thinking about harming yourself, if you feel unsafe, or if low mood, anxiety, pressure from studies or worries about money have taken over your days, please reach out to a qualified professional or a helpline in your own country. I am not a licensed professional or a certified practitioner, and I cannot replace one.</p>
+        <div class="help">
+          <dl>
+            <div>
+              <dt>In immediate danger</dt>
+              <dd>Call your local emergency number: <span class="num">112</span> in India, Europe and many other countries, <span class="num">911</span> in the United States and Canada, <span class="num">999</span> in the United Kingdom, <span class="num">000</span> in Australia.</dd>
+            </div>
+            <div>
+              <dt>In India</dt>
+              <dd><span class="num">112</span> reaches police, fire and ambulance across India. To talk to someone, call Tele-MANAS on <span class="num">14416</span> or <span class="num">1800-891-4416</span>. It is the government's free mental health helpline, open 24 hours in many languages (<a href="https://telemanas.mohfw.gov.in/home" target="_blank" rel="noopener">telemanas.mohfw.gov.in</a>). Childline is free, open 24 hours, and is for children and for adults calling on a child's behalf: <span class="num">1098</span>.</dd>
+            </div>
+            <div>
+              <dt>Someone to talk to, in your country</dt>
+              <dd><a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a> lists free, confidential helplines in more than 130 countries, by country and by topic. <a href="https://help.befrienders.org/" target="_blank" rel="noopener">Befrienders Worldwide</a> is a network of crisis helplines in 35 countries.</dd>
+            </div>
+            <div>
+              <dt>A licensed professional near you</dt>
+              <dd>Ask your doctor, hospital or health insurer for a referral. Choose a psychologist, psychiatrist, therapist or counsellor who is licensed or registered where you live, and check this with your national or regional professional body. <a href="https://www.psychologytoday.com/country-selector" target="_blank" rel="noopener">Psychology Today</a> lists verified therapists in more than 20 countries.</dd>
+            </div>
+            <div>
+              <dt>Money worries</dt>
+              <dd>Free debt and money advice exists in many countries. Search for free debt advice together with the name of your country, or ask your town hall, a local welfare organisation or a citizens' advice service.</dd>
+            </div>
+          </dl>
+        </div>
+        <p>These services are run by independent organisations, and Iksoi is not connected with them. I read my email, but not around the clock, so please <mark class="key">do not use it in an emergency</mark>.</p>
+      </div>
+    </section>
+
+    <section class="s" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Get in touch</h2>
+      <div>
+        <p>There are two addresses, depending on what brings you here.</p>
+        <div class="chan">
+          <h3>If you need support</h3>
+          <p>Tell me in a few lines what is on your mind and when you are usually free. You do not need to explain everything.</p>
+          <div class="mail">
+            <span class="addr">helpme@iksoi.org</span>
+            <button class="ghost copy" type="button" data-addr="helpme@iksoi.org">Copy address</button>
+            <a href="mailto:helpme@iksoi.org">Open in your mail app</a>
+          </div>
+        </div>
+        <div class="chan">
+          <h3>If you would like to contribute</h3>
+          <p>You can offer your time, a skill, an idea or your support, or simply share this page with someone who may need it.</p>
+          <div class="mail">
+            <span class="addr">contact@iksoi.org</span>
+            <button class="ghost copy" type="button" data-addr="contact@iksoi.org">Copy address</button>
+            <a href="mailto:contact@iksoi.org">Open in your mail app</a>
+          </div>
+        </div>
+        <p class="status" id="copy-status" role="status" aria-live="polite"></p>
+        <div class="chan">
+          <h3>Follow along</h3>
+          <ul class="social">
+            <li><span class="net">Instagram</span><span class="handle">Coming soon</span></li>
+            <li><span class="net">Facebook</span><span class="handle">Coming soon</span></li>
+            <li><span class="net">YouTube</span><span class="handle">Coming soon</span></li>
+            <li><span class="net">X (Twitter)</span><span class="handle">Coming soon</span></li>
+          </ul>
+        </div>
+        <p>Your message <mark class="key">stays between us</mark>. I read it myself, and I do not share it with anyone or pass it to any AI tool. More is in the privacy notice below.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Iksoi</p>
+    <div class="legal">
+      <details>
+        <summary>Legal notice (Impressum)</summary>
+        <p>Iksoi is a free, non-commercial initiative run by one person. It is not yet a registered organisation, and registration is planned.</p>
+        <p>Responsible for this website: the person behind Iksoi, who answers every message personally.</p>
+        <p>Contact: contact@iksoi.org</p>
+      </details>
+      <details>
+        <summary>Privacy</summary>
+        <ul>
+          <li>I collect the email address and the message you send me, and nothing else.</li>
+          <li>I use them only to reply to you and to arrange a session.</li>
+          <li>I am a real person, not an AI. I read and answer every message myself. I do not use AI tools to read, summarise or reply to your messages, and I do not pass them to any AI service.</li>
+          <li>I keep them for <mark class="key">three months</mark> after our last contact, then delete them.</li>
+          <li>Email is handled by Zoho Corporation. The site is hosted by GitHub, which may keep technical server logs, such as your IP address, for a short time.</li>
+          <li>This page sets no cookies and uses no analytics or tracking.</li>
+          <li>You can ask me at any time what I hold about you, and ask me to delete it.</li>
+        </ul>
+      </details>
+    </div>
+  </footer>
+</div>
+<script id="page-script">
+(function () {
+  'use strict';
+
+  var app = document.getElementById('app');
+  var placeholderStart = null;
+  var editing = false;
+
+  /* Text blocks a person can change in edit mode */
+  var EDITABLE = [
+    '.eyebrow', 'h1', '.lede', '.btn', '.actions > a:not(.btn)', 'figcaption',
+    'h2', '.s p:not(.status)', '.cols h3', '.cols li', '.steps strong',
+    '.help dt', '.help dd', '.chan h3', '.addr', '.social .net', '.social .handle', '.social mark',
+    'footer > p', 'details p', 'details li'
+  ].join(',');
+  var HOST = '[contenteditable="true"]';
+  var NBSP = / /g;
+
+  function closestEl(node, selector) {
+    var el = node && node.nodeType === 1 ? node : node && node.parentElement;
+    return el && el.closest ? el.closest(selector) : null;
+  }
+  function all(root, selector) {
+    return Array.prototype.slice.call(root.querySelectorAll(selector));
+  }
+  function unwrap(el) {
+    var parent = el.parentNode;
+    if (!parent) return;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el);
+  }
+  function make(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function copyNote(text) {
+    var n = document.getElementById('copy-status');
+    if (n) n.textContent = text;
+  }
+
+  /* Copy-address buttons, for every visitor */
+  function selectText(el) {
+    if (!el) return;
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    copyNote('Address selected. Use your device’s copy command.');
+  }
+
+  /* In edit mode, a first click on a highlighted placeholder selects all of it, so typing replaces it */
+  app.addEventListener('mousedown', function (e) {
+    if (!editing) return;
+    var ph = closestEl(e.target, 'mark.ph');
+    var s = window.getSelection();
+    placeholderStart = ph && s && s.anchorNode && ph.contains(s.anchorNode) ? ph : null;
+  });
+
+  app.addEventListener('click', function (e) {
+    if (editing) {
+      if (closestEl(e.target, 'a')) e.preventDefault();
+      var ph = closestEl(e.target, 'mark.ph');
+      if (ph && placeholderStart !== ph) {
+        var pr = document.createRange();
+        pr.selectNodeContents(ph);
+        var ps = window.getSelection();
+        ps.removeAllRanges();
+        ps.addRange(pr);
+      }
+      placeholderStart = null;
+      return;
+    }
+    var btn = closestEl(e.target, '.copy');
+    if (!btn) return;
+    var text = btn.getAttribute('data-addr');
+    var el = btn.parentNode.querySelector('.addr');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        copyNote(text + ' copied.');
+      }, function () { selectText(el); });
+    } else {
+      selectText(el);
+    }
+  });
+
+  /* Page editor: offered only to people who can save this page */
+  var artifact = null;
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    window.claude.use('artifact').then(function (a) {
+      if (!a || typeof a.publish !== 'function') return false;
+      artifact = a;
+      return window.claude.use('user').then(function (u) {
+        return u && typeof u.canEdit === 'function' ? u.canEdit() : true;
+      }, function () { return true; });
+    }).then(function (ok) {
+      if (ok && artifact) buildEditor();
+    }).catch(function () {});
+  }
+
+  function buildEditor() {
+    var dirty = false;
+    var armed = false;
+    var saving = false;
+    var snapshot = '';
+    var savedRange = null;
+
+    var fab = make('button', 'ed-fab', 'Edit page');
+    fab.type = 'button';
+
+    var bar = make('div', 'ed-bar');
+    bar.hidden = true;
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', 'Page editor');
+
+    var hint = make('p', 'ed-hint', 'Click any text to change it. To make a link, select the text, type the address and press Add link.');
+    var note = make('p', 'ed-note');
+    note.setAttribute('role', 'status');
+    note.setAttribute('aria-live', 'polite');
+
+    var linkRow = make('div', 'ed-row');
+    var url = make('input', 'ed-input');
+    url.type = 'url';
+    url.id = 'ed-url';
+    url.placeholder = 'Link address, for example https://instagram.com/yourname';
+    url.setAttribute('aria-label', 'Link address');
+    var addBtn = make('button', 'ed-btn', 'Add link');
+    addBtn.type = 'button';
+    var delBtn = make('button', 'ed-btn', 'Remove link');
+    delBtn.type = 'button';
+    linkRow.append(url, addBtn, delBtn);
+
+    var actRow = make('div', 'ed-row');
+    var check = make('label', 'ed-check');
+    var box = make('input');
+    box.type = 'checkbox';
+    box.id = 'ed-clear';
+    check.append(box, document.createTextNode('Remove all remaining highlights when saving'));
+    var cancelBtn = make('button', 'ed-btn', 'Cancel');
+    cancelBtn.type = 'button';
+    var saveBtn = make('button', 'ed-btn primary', 'Save');
+    saveBtn.type = 'button';
+    actRow.append(check, cancelBtn, saveBtn);
+
+    bar.append(hint, note, linkRow, actRow);
+    document.body.append(fab, bar);
+
+    function say(text) { note.textContent = text; }
+
+    function startEdit() {
+      snapshot = app.innerHTML;
+      dirty = false;
+      armed = false;
+      cancelBtn.textContent = 'Cancel';
+      editing = true;
+      document.body.classList.add('editing');
+      all(app, EDITABLE).forEach(function (n) { n.setAttribute('contenteditable', 'true'); });
+      all(app, 'details').forEach(function (d) { d.open = true; });
+      fab.hidden = true;
+      bar.hidden = false;
+      say('');
+    }
+
+    function exitEdit(restore) {
+      if (restore) app.innerHTML = snapshot;
+      all(app, '[contenteditable]').forEach(function (n) { n.removeAttribute('contenteditable'); });
+      editing = false;
+      savedRange = null;
+      document.body.classList.remove('editing');
+      fab.hidden = false;
+      bar.hidden = true;
+      say('');
+    }
+
+    /* Keep the editing plain: one line of text per box, no pasted formatting */
+    app.addEventListener('keydown', function (e) {
+      if (!editing || !closestEl(e.target, HOST)) return;
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+        return;
+      }
+      if ((e.ctrlKey || e.metaKey) && /^[biu]$/i.test(e.key)) e.preventDefault();
+    });
+    app.addEventListener('beforeinput', function (e) {
+      if (!editing) return;
+      var t = e.inputType || '';
+      if (t === 'insertParagraph' || t === 'insertLineBreak' || t === 'insertFromDrop' ||
+          t === 'insertFromYank' || t.indexOf('format') === 0) e.preventDefault();
+    });
+    app.addEventListener('paste', function (e) {
+      if (!editing || !closestEl(e.target, HOST)) return;
+      e.preventDefault();
+      var data = e.clipboardData || window.clipboardData;
+      var text = data ? data.getData('text/plain').replace(/\s*[\r\n]+\s*/g, ' ') : '';
+      if (text) document.execCommand('insertText', false, text);
+    });
+    app.addEventListener('drop', function (e) { if (editing) e.preventDefault(); });
+
+    app.addEventListener('input', function () {
+      if (!editing) return;
+      dirty = true;
+      if (armed) { armed = false; cancelBtn.textContent = 'Cancel'; }
+      var s = window.getSelection();
+      var m = s && s.anchorNode ? closestEl(s.anchorNode, 'mark.ph') : null;
+      if (m && app.contains(m)) m.setAttribute('data-touched', '');
+    });
+
+    /* Remember the selection inside the page, so it survives a click into the link box */
+    function captureSelection() {
+      if (!editing) return;
+      var sel = window.getSelection();
+      if (!sel || !sel.rangeCount) return;
+      var r = sel.getRangeAt(0);
+      var host = closestEl(r.commonAncestorContainer, HOST);
+      if (host && app.contains(host)) savedRange = r.cloneRange();
+    }
+    document.addEventListener('selectionchange', captureSelection);
+    app.addEventListener('mouseup', captureSelection);
+    app.addEventListener('keyup', captureSelection);
+    bar.addEventListener('pointerdown', captureSelection, true);
+
+    function applyLink() {
+      var raw = url.value.trim();
+      if (!savedRange || savedRange.collapsed) { say('First select the text you want to turn into a link.'); return; }
+      if (!raw) { say('Type the link address first.'); return; }
+      if (closestEl(savedRange.commonAncestorContainer, 'a')) { say('That text is already a link. Remove the link first.'); return; }
+      if (!/^[a-z][a-z0-9+.-]*:/i.test(raw)) raw = 'https://' + raw;
+      var parsed;
+      try { parsed = new URL(raw); } catch (err) { say('That address does not look right. Please check it.'); return; }
+      if (!/^(https?:|mailto:|tel:)$/.test(parsed.protocol)) { say('Links can start with https://, mailto: or tel: only.'); return; }
+      var a = document.createElement('a');
+      a.href = parsed.href;
+      if (parsed.protocol.indexOf('http') === 0) { a.target = '_blank'; a.rel = 'noopener'; }
+      a.appendChild(savedRange.extractContents());
+      savedRange.insertNode(a);
+      var m = closestEl(a, 'mark.ph');
+      if (m) m.setAttribute('data-touched', '');
+      savedRange = null;
+      url.value = '';
+      dirty = true;
+      say('Link added.');
+    }
+
+    function removeLink() {
+      var a = savedRange ? closestEl(savedRange.commonAncestorContainer, 'a') : null;
+      if (!a || !app.contains(a)) { say('Place the cursor inside the link you want to remove.'); return; }
+      if (a.matches('.btn, .actions > a, .brand, nav a')) { say('That link is part of the page layout. Ask Claude to change it.'); return; }
+      unwrap(a);
+      savedRange = null;
+      dirty = true;
+      say('Link removed.');
+    }
+
+    /* The saved page is rebuilt from the page's own source, never from the live document */
+    function resetCss() {
+      var styles = document.head ? document.head.querySelectorAll('style') : [];
+      for (var i = 0; i < styles.length; i++) {
+        if (/safe-area-inset/.test(styles[i].textContent)) return styles[i].textContent;
+      }
+      return ':root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}';
+    }
+
+    function cleanedApp() {
+      var c = app.cloneNode(true);
+      var removeAll = box.checked;
+
+      all(c, '[contenteditable]').forEach(function (n) {
+        n.removeAttribute('contenteditable');
+        n.removeAttribute('spellcheck');
+      });
+      all(c, '[style]').forEach(function (n) { n.removeAttribute('style'); });
+      all(c, 'details').forEach(function (n) { n.removeAttribute('open'); });
+      all(c, 'font, b, i, u, span:not([class])').forEach(unwrap);
+      all(c, 'mark.ph').forEach(function (m) {
+        if (removeAll || m.hasAttribute('data-touched')) unwrap(m);
+      });
+
+      all(c, '.mail').forEach(function (m) {
+        var addrEl = m.querySelector('.addr');
+        if (!addrEl) return;
+        var addr = addrEl.textContent.replace(NBSP, ' ').trim();
+        var b = m.querySelector('.copy');
+        var a = m.querySelector('a');
+        if (b) b.setAttribute('data-addr', addr);
+        if (a) a.setAttribute('href', 'mailto:' + addr);
+      });
+
+      all(c, '.s p:not(.status), .cols li, details p, details li, footer > p').forEach(function (n) {
+        if (!n.children.length && !n.textContent.trim()) n.remove();
+      });
+      all(c, '.social li').forEach(function (li) {
+        var net = li.querySelector('.net');
+        var rest = li.textContent.replace(net ? net.textContent : '', '').trim();
+        if (!rest) li.remove();
+      });
+      all(c, '.social').forEach(function (ul) {
+        if (!ul.children.length) {
+          var chan = ul.closest('.chan');
+          if (chan) chan.remove(); else ul.remove();
+        }
+      });
+
+      var walker = document.createTreeWalker(c, NodeFilter.SHOW_TEXT);
+      var tn;
+      while ((tn = walker.nextNode())) {
+        if (NBSP.test(tn.nodeValue)) tn.nodeValue = tn.nodeValue.replace(NBSP, ' ');
+        NBSP.lastIndex = 0;
+      }
+      return c.outerHTML;
+    }
+
+    function buildDocument() {
+      var style = document.getElementById('page-style').textContent;
+      var script = document.getElementById('page-script').textContent;
+      return '<!doctype html><html><head><meta charset=utf8>' +
+        '<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+        '<style>' + resetCss() + '</style></head><body>' +
+        '<title>Iksoi</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n' +
+        '<style id="page-style">' + style + '</style>\n' +
+        cleanedApp() + '\n' +
+        '<script id="page-script">' + script + '<\/script>\n</body></html>';
+    }
+
+    function save() {
+      if (saving) return;
+      var html;
+      try { html = buildDocument(); } catch (err) { say('Could not prepare the page, so nothing was saved.'); return; }
+      saving = true;
+      saveBtn.disabled = true;
+      say('Saving…');
+      artifact.publish(html).then(function () {
+        say('Saved. Reloading your page…');
+      }, function (err) {
+        saving = false;
+        saveBtn.disabled = false;
+        var code = err && err.code;
+        if (code === 'not_writer' || code === 'not_granted' || code === 'not_declared' ||
+            code === 'consent_required' || code === 'capability_disabled' || code === 'capability_removed') {
+          say('This view is read-only, so changes cannot be saved from here.');
+        } else if (code === 'conflict') {
+          say('The page was changed somewhere else and is reloading. Your latest edits were not saved.');
+        } else if (code === 'rate_limited') {
+          say('Too many saves in a row. Wait a minute, then press Save again.');
+        } else if (code === 'too_large') {
+          say('The page is too large to save.');
+        } else {
+          say('Saving failed. Your edits are still on the page, so you can try again.');
+        }
+      });
+    }
+
+    fab.addEventListener('click', startEdit);
+    addBtn.addEventListener('click', applyLink);
+    delBtn.addEventListener('click', removeLink);
+    saveBtn.addEventListener('click', save);
+    cancelBtn.addEventListener('click', function () {
+      if (dirty && !armed) {
+        armed = true;
+        cancelBtn.textContent = 'Discard changes?';
+        say('Press the button again to throw away your edits.');
+        return;
+      }
+      exitEdit(true);
+    });
+  }
+})();
+</script>
+</body></html>
